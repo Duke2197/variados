@@ -39,31 +39,21 @@ if archivo is not None:
         # Extraer info
         años_encontrados = re.findall(r"EJERCICIO (?:ANTERIOR|CORRIENTE) \((\d{4})\)", texto)
         totales = re.findall(r"TOTAL EJERCICIO\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)", texto)
-        meses_por_linea = re.findall(
-            r"(ENERO|FEBRERO|MARZO|ABRIL|MAYO|JUNIO|JULIO|AGOSTO|SETIEMBRE|OCTUBRE|NOVIEMBRE|DICIEMBRE)", texto)
 
-        cantidad_meses = []
-        contador = 0
-        for _ in totales:
-            meses = meses_por_linea[contador:contador + 12]
-            cantidad_meses.append(len(meses))
-            contador += len(meses)
-
-        # Mostrar resultados
+        # Mostrar resultados en columnas
         st.subheader("📊 Resultados extraídos")
-
         for i, total in enumerate(totales):
             año = años_encontrados[i] if i < len(años_encontrados) else f"Desconocido_{i}"
             ingresos_netos = int(total[1].replace(",", ""))
-            meses = cantidad_meses[i] if i < len(cantidad_meses) else 0
-            st.markdown(f"""
-            **🔹 RUC:** {ruc}  
-            **📅 Fecha Info:** {fecha_info}  
-            **📘 Año:** {año}  
-            **💰 Ingresos Netos:** ${ingresos_netos:,}  
-            **📆 Meses Reportados:** {meses}
-            ---
-            """)
+
+            col1, col2, col3, col4 = st.columns(4)
+            col1.markdown(f"**🔹 RUC:** {ruc}")
+            col2.markdown(f"**📅 Fecha Info:** {fecha_info}")
+            col3.markdown(f"**📘 Año:** {año}")
+            col4.markdown(f"**💰 Ingresos Netos:** ${ingresos_netos:,}")
+
+            st.markdown("---")
 
     except Exception as e:
         st.error(f"Ocurrió un error al procesar el archivo: {e}")
+
