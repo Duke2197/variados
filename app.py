@@ -44,13 +44,13 @@ if archivo is not None:
         st.subheader("📊 Resultados extraídos")
         for i, total in enumerate(totales):
             año = años_encontrados[i] if i < len(años_encontrados) else f"Desconocido_{i}"
-            ingresos_netos = int(total[1].replace(",", ""))
+            ventas = int(total[0].replace(",", ""))
 
             col1, col2, col3, col4 = st.columns(4)
             col1.markdown(f"**🔹 RUC:** {ruc}")
             col2.markdown(f"**📅 Fecha Info:** {fecha_info}")
             col3.markdown(f"**📘 Año:** {año}")
-            col4.markdown(f"**💰 Ingresos Netos:** ${ingresos_netos:,}")
+            col4.markdown(f"**💰 Ventas:** ${ventas:,}")
 
             st.markdown("---")
 
